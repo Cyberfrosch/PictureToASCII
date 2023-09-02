@@ -1,0 +1,10 @@
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\bin\Debug\PictureToASCII.exe.config
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\bin\Debug\PictureToASCII.exe
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\bin\Debug\PictureToASCII.pdb
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\obj\Debug\PictureToASCII.csproj.AssemblyReference.cache
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\obj\Debug\PictureToASCII.csproj.CoreCompileInputs.cache
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\obj\Debug\PictureToASCII.exe
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\obj\Debug\PictureToASCII.pdb
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\bin\Debug\CommandLine.dll
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\bin\Debug\CommandLine.xml
+D:\Projects\Visual Studio\PictureToASCII\PictureToASCII\obj\Debug\PictureToASCII.csproj.CopyComplete
