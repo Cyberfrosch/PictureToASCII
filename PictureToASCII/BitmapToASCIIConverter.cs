@@ -10,7 +10,8 @@ namespace PictureToASCII
 {
     public class BitmapToASCIIConverter
     {
-        private static readonly char[] _asciiTable = { '.', ',', ':', '+', '*', '?', '%', '$', '#', '@' };
+        private static readonly char[] _asciiTable = { '.', ',', ':', '+', '*', '?', '%', 'S', '#', '@' };
+        private static readonly char[] _asciiTableReverse = { '@', '#', 'S', '%', '?', '*', '+', ':', ',', '.' };
         private static readonly int _asciiTableSize = _asciiTable.Length - 1;
         private Bitmap _bitmap;
 
@@ -21,6 +22,16 @@ namespace PictureToASCII
 
         public char[][] Convert()
         {
+            return Convert(_asciiTable);
+        }
+
+        public char[][] ConvertReverse()
+        {
+            return Convert(_asciiTableReverse);
+        }
+
+        public char[][] Convert(char[] asciiTable)
+        {
             var result = new char[_bitmap.Height][];
 
             for (int y = 0; y < _bitmap.Height; y++)
@@ -30,7 +41,7 @@ namespace PictureToASCII
                 {
                     //TODO: cast Color to Double
                     int mapIndex = (int)Map(_bitmap.GetPixel(x, y).R, 0, 255, 0, _asciiTableSize);
-                    result[y][x] = _asciiTable[mapIndex];
+                    result[y][x] = asciiTable[mapIndex];
                 }
             }
 

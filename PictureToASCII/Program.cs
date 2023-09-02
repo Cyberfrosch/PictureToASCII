@@ -13,6 +13,8 @@ namespace PictureToASCII
 {
     class Program
     {
+        private const System.ConsoleKey KEY_TERMINATED = ConsoleKey.Escape;
+
         [STAThread]
 
         static void Main(string[] args)
@@ -27,7 +29,8 @@ namespace PictureToASCII
                         Filter = "Images | *.bmp; *.png; *.jpg; *.jpeg"
                     };
 
-                    while (true)
+                    Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
+                    while (Console.ReadKey(true).Key != KEY_TERMINATED)
                     {
                         Console.Clear();
 
@@ -47,7 +50,20 @@ namespace PictureToASCII
                             Console.WriteLine(row);
                         }
 
-                        Console.ReadLine();
+                        if(options.File != null)
+                        {
+                            var rowsReverse = converter.ConvertReverse();
+                            File.WriteAllLines(options.File, rowsReverse.Select(r => new string(r)));
+                            Console.WriteLine($"ASCII art has been saved.\n");
+                            break;
+                        }
+
+                        Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
+                    }
+
+                    if (options.File == null)
+                    {
+                        Console.WriteLine($"<{KEY_TERMINATED}> is pressed! The program has been terminated.\n");
                     }
                 }
             });
@@ -55,12 +71,7 @@ namespace PictureToASCII
             {
                 if (errors.Any(e => e.Tag != ErrorType.HelpRequestedError) && errors.Any(e => e.Tag != ErrorType.VersionRequestedError))
                 {
-                    // Обработать ошибки при разборе аргументов командной строки
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine($"Error: {error.Tag}");
-                    }
-                    Console.WriteLine("Failed to parse command line arguments!");
+                    Console.WriteLine("Failed to parse command line arguments!\n");
                 }
             });
         }

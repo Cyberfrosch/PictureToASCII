@@ -15,8 +15,7 @@ namespace PictureToASCII
         [Option('w', "max-width", Default = 300, HelpText = "Set max width to image")]
         public static int MaxWidth { get; set; }
 
-        [Value(0, MetaName = "input", HelpText = "Input image file")]
-        public string InputFile { get; set; }
+        [Option('f', "file", HelpText = "Save image to file")]
+        public string File { get; set; }
     }
-
 }
