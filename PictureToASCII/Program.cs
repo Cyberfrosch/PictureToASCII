@@ -44,19 +44,24 @@ namespace PictureToASCII
                     bitmap.ToGrayscale();
 
                     var converter = new BitmapToASCIIConverter(bitmap);
-                    var rows = converter.Convert();
-                    foreach (var row in rows)
-                    {
-                        Console.WriteLine(row);
-                    }
 
                     if (Options.File != null)
                     {
                         var rowsReverse = converter.ConvertReverse();
+
                         File.WriteAllLines(Options.File, rowsReverse.Select(r => new string(r)));
                         Console.WriteLine($"ASCII art has been saved.\n");
 
                         break;
+                    }
+                    else
+                    {
+                        var rows = converter.Convert();
+
+                        foreach (var row in rows)
+                        {
+                            Console.WriteLine(row);
+                        }
                     }
 
                     if (Options.Change)

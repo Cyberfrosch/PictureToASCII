@@ -1,4 +1,6 @@
-﻿using CommandLine;
+﻿//#define TEST
+
+using CommandLine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -78,7 +80,6 @@ namespace PictureToASCII
                             MAX_WIDTH_DEFAULT, MAX_WIDTH_MIN, MAX_WIDTH_MAX);
                         
                         break;
-                    //change console color not work
                     case ConsoleKey.C:
                         MessageOptions(Color);
                         Color = TryChangeValue($"\nSet console background color (current background color = {Color}): ",
@@ -143,16 +144,23 @@ namespace PictureToASCII
 
             try
             {
-                T userInput;
-                if (defaultValue is ConsoleColor)
+                if (typeof(T) == typeof(ConsoleColor))
                 {
-                    userInput = (T)Convert.ChangeType(int.Parse(Console.ReadLine()), typeof(T));
+                    string userInput = Console.ReadLine();
+                    if (Enum.TryParse(userInput, true, out ConsoleColor color))
+                    {
+                        option = (T)(object)color;
+                    }
+                    else
+                    {
+                        option = defaultValue;
+                    }
                 }
                 else
                 {
-                    userInput = (T)Convert.ChangeType(Console.ReadLine(), typeof(T));
+                    T userInput = (T)Convert.ChangeType(Console.ReadLine(), typeof(T));
+                    option = userInput;
                 }
-                option = userInput;
             }
             catch (Exception ex)
             {
