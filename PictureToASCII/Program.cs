@@ -50,7 +50,7 @@ namespace PictureToASCII
                         Console.WriteLine(row);
                     }
 
-                    if(Options.File != null)
+                    if (Options.File != null)
                     {
                         var rowsReverse = converter.ConvertReverse();
                         File.WriteAllLines(Options.File, rowsReverse.Select(r => new string(r)));
@@ -59,7 +59,10 @@ namespace PictureToASCII
                         break;
                     }
 
-                    Options.ChangeOptions();
+                    if (Options.Change)
+                    {
+                        Options.ChangeOptions();
+                    }
 
                     Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
                 }
