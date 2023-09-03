@@ -23,48 +23,50 @@ namespace PictureToASCII
 
             parserResult.WithParsed(options =>
             {
+                OpenFileDialog openFileDialog = new OpenFileDialog()
                 {
-                    OpenFileDialog openFileDialog = new OpenFileDialog()
+                    Filter = "Images | *.bmp; *.png; *.jpg; *.jpeg"
+                };
+
+                Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
+
+                while (Console.ReadKey(true).Key != KEY_TERMINATED)
+                {
+                    Console.Clear();
+
+                    if (openFileDialog.ShowDialog() != DialogResult.OK)
                     {
-                        Filter = "Images | *.bmp; *.png; *.jpg; *.jpeg"
-                    };
+                        continue;
+                    }
+
+                    Bitmap bitmap = new Bitmap(openFileDialog.FileName);
+                    bitmap = ResizeBitmap(bitmap);
+                    bitmap.ToGrayscale();
+
+                    var converter = new BitmapToASCIIConverter(bitmap);
+                    var rows = converter.Convert();
+                    foreach (var row in rows)
+                    {
+                        Console.WriteLine(row);
+                    }
+
+                    if(Options.File != null)
+                    {
+                        var rowsReverse = converter.ConvertReverse();
+                        File.WriteAllLines(Options.File, rowsReverse.Select(r => new string(r)));
+                        Console.WriteLine($"ASCII art has been saved.\n");
+
+                        break;
+                    }
+
+                    Options.ChangeOptions();
 
                     Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
-                    while (Console.ReadKey(true).Key != KEY_TERMINATED)
-                    {
-                        Console.Clear();
+                }
 
-                        if (openFileDialog.ShowDialog() != DialogResult.OK)
-                        {
-                            continue;
-                        }
-
-                        Bitmap bitmap = new Bitmap(openFileDialog.FileName);
-                        bitmap = ResizeBitmap(bitmap);
-                        bitmap.ToGrayscale();
-
-                        var converter = new BitmapToASCIIConverter(bitmap);
-                        var rows = converter.Convert();
-                        foreach (var row in rows)
-                        {
-                            Console.WriteLine(row);
-                        }
-
-                        if(options.File != null)
-                        {
-                            var rowsReverse = converter.ConvertReverse();
-                            File.WriteAllLines(options.File, rowsReverse.Select(r => new string(r)));
-                            Console.WriteLine($"ASCII art has been saved.\n");
-                            break;
-                        }
-
-                        Console.WriteLine($"Press any key to select an image OR press <{KEY_TERMINATED}> to shut down the program...");
-                    }
-
-                    if (options.File == null)
-                    {
-                        Console.WriteLine($"<{KEY_TERMINATED}> is pressed! The program has been terminated.\n");
-                    }
+                if (Options.File == null)
+                {
+                    Console.WriteLine($"<{KEY_TERMINATED}> is pressed! The program has been terminated.\n");
                 }
             });
             parserResult.WithNotParsed(errors =>
